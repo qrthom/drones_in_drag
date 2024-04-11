@@ -75,12 +75,16 @@ class worker_node(Node):
         """
         groupState = SimpleNamespace(crazyflies=self.crazyflies, timeHelper=self.timeHelper)
         ### ---------Insert Execution Code Here------------
-        # Block Name: CF1 Movement
-        start_time = 0
+        # Block Name: CF8 Movement
+        start_time = 0.07999999999999996
         self.timeHelper.sleepUntil(start_time)
         takeoff(groupState, 1, 3)
-        goto_duration(groupState, -2,1,1,5)
-        goto_duration(groupState, -2,-1,1,3)
+        pos_array = globals.drone_1_pos
+        goto_velocity(groupState, pos_array[0][0], pos_array[0][1], pos_array[0][2], pos_array[0][3], 1)
+        goto_velocity(groupState, pos_array[1][0], pos_array[1][1], pos_array[1][2], pos_array[1][3], 1)
+        goto_velocity(groupState, pos_array[2][0], pos_array[2][1], pos_array[2][2], pos_array[2][3], 1)
+        goto_velocity(groupState, pos_array[3][0], pos_array[3][1], pos_array[3][2], pos_array[3][3], 1)
+        land(groupState)
 
         
         self.done = True

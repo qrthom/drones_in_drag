@@ -6,7 +6,9 @@ import numpy as np
 from blocklyTranslations import *
 from types import SimpleNamespace
 from TimeHelper import TimeHelper # TODO add to files downloaded
+import globals
 Hz = 30
+drone_id = 1
 
 class worker_node(Node):
 
@@ -75,13 +77,16 @@ class worker_node(Node):
         """
         groupState = SimpleNamespace(crazyflies=self.crazyflies, timeHelper=self.timeHelper)
         ### ---------Insert Execution Code Here------------
-        # Block Name: CF3 Movement
+        # Block Name: CF1 Movement
         start_time = 0
         self.timeHelper.sleepUntil(start_time)
         takeoff(groupState, 1, 3)
-        goto_duration(groupState, -2,1,1,3)
-
         
+        goto_velocity(groupState, globals.drone_1_pos[0][0],globals.drone_1_pos[0][1],globals.drone_1_pos[0][2], 1)
+        goto_velocity(groupState, globals.drone_1_pos[1][0],globals.drone_1_pos[1][1],globals.drone_1_pos[1][2], 1)
+        goto_velocity(groupState, globals.drone_1_pos[2][0],globals.drone_1_pos[2][1],globals.drone_1_pos[2][2], 1)
+        goto_velocity(groupState, globals.drone_1_pos[3][0],globals.drone_1_pos[3][1],globals.drone_1_pos[3][2], 1)
+
         self.done = True
     
     def timer_callback(self):
