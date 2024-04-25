@@ -40,7 +40,6 @@ right_side_strut_points = [[2, 2, 2.1], [-2, 2, 2.1]]
 left_side_intro_points = [[-2.75, 2, 2.1], [2.75, 2, 2.1]]
 right_side_intro_points = [[2.75, 2, 2.1], [-2.75, 2, 2.1]]
 
-
 default_destinations = [
     [2, 1, 2.1],
     [2, 0, 2.1],
@@ -51,7 +50,6 @@ default_destinations = [
     [-2, -1, 2.1],
     [-2, -2, 2.1],
 ]
-
 
 # These two functions each initialize each half of the strut matrix
 for drone_index in range(0, 4, 1):
@@ -357,9 +355,6 @@ def main():
         button_index = np.argmax(button_press)
         if np.count_nonzero(button_press) == 0:
             button_index = -1
-        print(button_index)
-        print(button_press)
-        # button_pressed = not no_button_pressed
         update_drone_step_sequence(button_index)
         for i, drone in enumerate(drones):
             coords = drone_step_sequence[i, :, int(time_step / delta_t)]
