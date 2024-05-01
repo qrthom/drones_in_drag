@@ -1,8 +1,6 @@
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Int32
-from crazyflie_py import generate_trajectory
 import numpy as np
+import keyboard
+import time
 
 # from blocklyTranslations import *
 from types import SimpleNamespace
@@ -451,51 +449,19 @@ def initialize():
     hover_in_place(total_time)
 
 
-
 def main():
-    from crazyflie_py import Crazyswarm
-
-    swarm = Crazyswarm(log_poses=False)
-    allcfs = (
-        swarm.allcfs
-    )  # This is in order of x position(low x value means beginning of the list)
-    drones = allcfs.crazyflies
-    timeHelper = swarm.timeHelper
-
-    # Takeoff
-    allcfs.takeoff(2.1, 3)
-    timeHelper.sleep(3.0)
+    print("Test")
+    initialize()
     for time_step in np.arange(start=0, stop=total_time, step=delta_t):
         print(time_step)
         _time_step = time_step
-        button_press = swarm.input.checkIfAnyButtonIsPressed()
-        button_index = np.argmax(button_press)
-        if np.count_nonzero(button_press) == 0:
-            button_index = -1
-        update_drone_step_sequence(button_index)
+        keyboard.on_press(update_drone_step_sequence)
         for i, drone in enumerate(drones):
             coords = drone_step_sequence[i, :, int(time_step / delta_t)]
             drone.cmdPosition(coords)  # instead of goto
-        timeHelper.sleepForRate(1 / delta_t)
+        time.sleep(delta_t)
 
-    allcfs.land(0, 5.0)
-    timeHelper.sleep(3.0)
 
 
 if __name__ == "__main__":
     main()
-
-
-# TODO:
-# (3) Create the update codes for different moves
-#       a. Strut - Draft Finished
-#       b. Follower in one dimension(side to side of the performer)
-#       c. Circles around the performer - Draft finished
-#       d. Train Motion(Crazy lmfao)
-#       e. Intro march in lines - Draft finished
-#       f. Disperse
-#       g. V-formation
-# (7) ADJUST k VALUE IN circles() function
-# (8) GETTING DRONES IN A POSITION TO BEGIN CIRCLING - DRONE_INIT_MATRIX
-# (9) WHAT does groupState mean in the takeoff and land functions? How is it reltated to drone index?
-# (10) ADD SCIPI OPTIMIZER/COLLISION AVOIDANCE MECHANISM SAME AS IN THE CIRCLES
