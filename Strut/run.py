@@ -172,8 +172,6 @@ def hover_in_place(end_time):
 
 
 # Draws a straight line on the drone_step_sequence tensor for a drone
-
-
 def straight_line(start_time, end_time, start_location, end_location, drone):
     trajectory_length = (int)((end_time - start_time) / delta_t)
     vel = (end_location - start_location) / (end_time - start_time)
@@ -289,9 +287,6 @@ def circles():
     layer2_sin_values = np.zeros((4, num_steps_left))
     for i in range(4):
         # Print the shape of k and t
-        print("k:", k)
-        print("Shape of t:", np.shape(t))
-        print("2nd Value of phi_layer_1:", phi_layer_1[2])
         layer1_cos_values[i] = np.reshape(
             np.cos(k * t + phi_layer_1[i]), (num_steps_left,)
         )
@@ -326,15 +321,19 @@ def circles():
     ] = layer2_circling_paths
 
     starting_values = drone_step_sequence[0:8, :, (int)(circling_start_time / delta_t)]
-
+    
     dists_start = scipy.spatial.distance_matrix(
         starting_values,
-        np.concatenate(layer1_circling_paths, layer2_circling_paths, axis=-1),
+        np.concatenate(layer1_circling_paths[:, :, 0], layer2_circling_paths[:, :, 0], axis=0),
     )
     assignments = linear_sum_assignment(dists_start)[1]
 
-    layer1_circling_paths = layer1_circling_paths[assignments]
-    layer2_circling_paths = layer2_circling_paths[assignments]
+    for j in range(drone_count):
+        i = assignments[j]
+        if(j > 3):
+            drone_step_sequence[i, :, -num_steps_left] = layer2_circling_paths[j - 4]
+        else:
+            drone_step_sequence[i, :, -num_steps_left] = layer1_circling_paths[j]
 
 
 def train():
@@ -357,7 +356,6 @@ def intro_march():
                 round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
                 )
-                # + time_step
             )
             straight_line(
                 time_iterator, end_time, cur_pos, target_location, drone_index
@@ -377,10 +375,19 @@ def disperse_to_default():
             )
             + _time_step
         )
+
+        
+        dists_start = scipy.spatial.distance_matrix(
+            default_destinations,
+            current_positions,
+        )
+        assignments = linear_sum_assignment(dists_start)[1]
+
         straight_line(
             _time_step, end_time, current_positions, default_destinations, drone_index
         )
         hover_in_place(end_time)
+        drone_step_sequence = drone_step_sequence[assignments]
 
 
 def v_formation():
