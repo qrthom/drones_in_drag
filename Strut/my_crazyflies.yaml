@@ -113,7 +113,7 @@ robot_types:
       marker: painter_frame
 robots:
   cf1:
-    enabled: false
+    enabled: true
     initial_position:
     - -2.75
     - -1
@@ -121,7 +121,7 @@ robots:
     type: cf21_m1
     uri: radio://*/80/2M/E7E7E7E701
   cf2:
-    enabled: false
+    enabled: true
     initial_position:
     - -2.75
     - 0
@@ -129,7 +129,7 @@ robots:
     type: cf21_single_marker
     uri: radio://*/100/2M/E7E7E7E702
   cf3:
-    enabled: false
+    enabled: true
     initial_position:
     - -2.75
     - 1
@@ -137,7 +137,7 @@ robots:
     type: cf21_single_marker
     uri: radio://*/120/2M/E7E7E7E703
   cf4:
-    enabled: false
+    enabled: true
     initial_position:
     - 2.75
     - -2
@@ -145,7 +145,7 @@ robots:
     type: cf21_m4
     uri: radio://*/80/2M/E7E7E7E704
   cf5:
-    enabled: false
+    enabled: true
     initial_position:
     - 2.75
     - -1
@@ -153,7 +153,7 @@ robots:
     type: cf21_single_marker
     uri: radio://*/100/2M/E7E7E7E705
   cf6:
-    enabled: false
+    enabled: true
     initial_position:
     - 2.75
     - 0
@@ -169,7 +169,7 @@ robots:
     type: cf21_single_marker
     uri: radio://*/80/2M/E7E7E7E73E
   cf7:
-    enabled: false
+    enabled: true
     initial_position:
     - 2.75
     - 1

@@ -38,43 +38,34 @@ def main():
     cfs = []
 
     #   -----------Insert Nodes Here----------- 
-    import group1_node
     cfs = []
     cfs.append(crazyflies[0])
     nodes.append(group1_node.worker_node(cfs, len(nodes), 2))
 
 
-    import group2_node
-    cfs = []
     cfs.append(crazyflies[1])
     nodes.append(group2_node.worker_node(cfs, len(nodes), 3))
 
 
-    import group3_node
     cfs = []
     cfs.append(crazyflies[2])
     nodes.append(group3_node.worker_node(cfs, len(nodes), 4))
 
 
-    import group4_node
     cfs = []
     cfs.append(crazyflies[3])
     nodes.append(group4_node.worker_node(cfs, len(nodes), 5))
 
-
-    import group5_node
     cfs = []
     cfs.append(crazyflies[4])
     nodes.append(group5_node.worker_node(cfs, len(nodes), 6))
 
 
-    import group6_node
     cfs = []
     cfs.append(crazyflies[5])
     nodes.append(group6_node.worker_node(cfs, len(nodes), 7))
 
 
-    import group7_node
     cfs = []
     cfs.append(crazyflies[6])
     nodes.append(group7_node.worker_node(cfs, len(nodes), 8))
