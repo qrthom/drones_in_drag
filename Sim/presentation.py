@@ -44,15 +44,21 @@ intro_matrix = strut_matrix = np.zeros((drone_count, dimensions, 3))
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
 right_side_strut_points = [[2, 2, 2.1], [-2, 2, 2.1]]
 
-right_side_v_1_points = [[0.5, 1, 2.1], [0.5, -0.5, 1]]
-right_side_v_2_points = [[1, 0, 2.1], [1, -1, 1.33]]
-right_side_v_3_points = [[1.5, -1, 2.1], [1.5, -1.5, 1.66]]
-right_side_v_4_points = [[2, -2, 2.1], [2, -2, 1.99]]
+v_8_points = [[1, 1, 2.1], [1, -0.5, 1]]
+v_7_points = [[1.3, 0, 2.1], [1.3, -1, 1.33]]
+v_6_points = [[1.6, -1, 2.1], [1.6, -1.5, 1.66]]
+v_5_points = [[1.9, -2, 2.1], [1.9, -2, 1.99]]
 
-left_side_v_5_points = [[-0.5, 1, 2.1], [-0.5, -0.5, 1]]
-left_side_v_6_points = [[-1, 0, 2.1], [-1, -1, 1.33]]
-left_side_v_7_points = [[-1.5, -1, 2.1], [-1.5, -1.5, 1.66]]
-left_side_v_8_points = [[-2, -2, 2.1], [-2, -2, 1.99]]
+v_4_points = [[-1, 1, 2.1], [-1, -0.5, 1]]
+v_3_points = [[-1.3, 0, 2.1], [-1.3, -1, 1.33]]
+v_2_points = [[-1.6, -1, 2.1], [-1.6, -1.5, 1.66]]
+v_1_points = [[-1.9, -2, 2.1], [-1.9, -2, 1.99]]
+
+v_mygoto = [[-1.9, -2, 2.1], [-1.6, -1, 2.1], [-1.3, 0, 2.1], [-1, 1, 2.1], [1.9, -2, 2.1], [1.6, -1, 2.1], [1.3, 0, 2.1], [1, 1, 2.1]]
+v_mygoto2 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+
+
+
 
 left_side_intro_points = [[-2.75, 2, 2.1], [-2, 2, 2.1]]
 right_side_intro_points = [[2.75, 2, 2.1], [2, 2, 2.1]]
@@ -132,21 +138,21 @@ for drone_index in range(4, 8, 1):
 for drone_index in range(0, 8, 1):
     for point_index in range(2):
         if drone_index == 0:
-            target_point = right_side_v_1_points[point_index]
+            target_point = v_1_points[point_index]
         if drone_index == 1:
-            target_point = right_side_v_2_points[point_index]
+            target_point = v_2_points[point_index]
         if drone_index == 2:
-            target_point = right_side_v_3_points[point_index]
+            target_point = v_3_points[point_index]
         if drone_index == 3:
-            target_point = right_side_v_4_points[point_index]
+            target_point = v_4_points[point_index]
         if drone_index == 4:
-            target_point = left_side_v_5_points[point_index]
+            target_point = v_5_points[point_index]
         if drone_index == 5:
-            target_point = left_side_v_6_points[point_index]
+            target_point = v_6_points[point_index]
         if drone_index == 6:
-            target_point = left_side_v_7_points[point_index]
+            target_point = v_7_points[point_index]
         if drone_index == 7:
-            target_point = left_side_v_8_points[point_index]
+            target_point = v_8_points[point_index]
         v_matrix[drone_index, :, point_index] = target_point
 
 
@@ -236,7 +242,7 @@ def my_goto(target_locations, start_time=_time_step, current_locations=None):
     print("Max duration:", max_duration)
 
 
-    end_time = start_time + max_duration
+    end_time = start_time + max_duration+1
 
 
     print
@@ -441,24 +447,12 @@ def v_formation():
     # Go to default locations
     # current_locations = np.asarray([drone_step_sequence[i,:,time_step] for i in range(drone_count)])
     v_begin_time = my_goto(default_destinations)
-    for drone_index in range(drone_count):
-        time_iterator = v_begin_time
-        for point in range(2):
-            target_location = v_matrix[drone_index, :, point]
-            cur_pos = None
-            if point == 0:
-                cur_pos = default_destinations[drone_index]
-            else:
-                cur_pos = v_matrix[drone_index, :, point - 1]
-            end_time = round_to_nearest_time_step(
-                    np.linalg.norm(target_location - cur_pos) / max_vel
-                ) + time_iterator
 
-            straight_line(
-                time_iterator, end_time, cur_pos, target_location, drone_index
-            )
-            time_iterator = end_time
-    hover_in_place(time_iterator - 10*delta_t)
+    v_first_point_time = my_goto(v_mygoto, v_begin_time-delta_t)
+    v_second_point_time = my_goto(v_mygoto2, v_first_point_time-delta_t)
+
+    hover_in_place(v_second_point_time-delta_t)
+
 
     # Make a subscriber to some topic in the launch.py
 
