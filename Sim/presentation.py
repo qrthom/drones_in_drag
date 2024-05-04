@@ -44,6 +44,9 @@ intro_matrix = strut_matrix = np.zeros((drone_count, dimensions, 3))
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
 right_side_strut_points = [[2, 2, 2.1], [-2, 2, 2.1]]
 
+left_side_intro_points = [[-2.75, 2, 2.1], [-2, 2, 2.1]]
+right_side_intro_points = [[2.75, 2, 2.1], [2, 2, 2.1]]
+
 right_side_v_1_points = [[0.5, 1, 2.1], [0.5, -0.5, 1]]
 right_side_v_2_points = [[1, 0, 2.1], [1, -1, 1.33]]
 right_side_v_3_points = [[1.5, -1, 2.1], [1.5, -1.5, 1.66]]
@@ -54,8 +57,7 @@ left_side_v_6_points = [[-1, 0, 2.1], [-1, -1, 1.33]]
 left_side_v_7_points = [[-1.5, -1, 2.1], [-1.5, -1.5, 1.66]]
 left_side_v_8_points = [[-2, -2, 2.1], [-2, -2, 1.99]]
 
-left_side_intro_points = [[-2.75, 2, 2.1], [-2, 2, 2.1]]
-right_side_intro_points = [[2.75, 2, 2.1], [2, 2, 2.1]]
+
 
 
 # Write an np array of shape (8, 3 )
@@ -258,26 +260,27 @@ def strut():
     strut_begin_time = my_goto(default_destinations)
     for drone_index in range(drone_count):
         time_iterator = strut_begin_time
-        for point in range(dimensions):
+        for point in range(3):
             target_location = strut_matrix[drone_index, :, point]
-            cur_pos = None
             if point == 0:
                 cur_pos = default_destinations[drone_index]
             else:
                 cur_pos = strut_matrix[drone_index, :, point - 1]
-            end_time = (
-                round_to_nearest_time_step(
+
+            
+            end_time = round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
-                )
-                # + time_step //not sure if this is needed?
-            )
+                ) + time_iterator
+            
+            print("TI",time_iterator)
+            print("ET", end_time)
             straight_line(
                 time_iterator, end_time, cur_pos, target_location, drone_index
             )
             time_iterator = end_time
         
 
-    hover_in_place(time_iterator, start_time=time_iterator)
+    hover_in_place(time_iterator )
 
 
 # TODO STRETCH GOAL: IMPLEMENT A FOLLOWER_MODE WITH A MOCAP SUBSRIBER
@@ -400,11 +403,10 @@ def intro_march():
         for point in range(dimensions):
 
             target_location = intro_matrix[drone_index, :, point]
-
             if point == 0:
                 cur_pos = start_positions[drone_index]
             else:
-                cur_pos = strut_matrix[drone_index, :, point - 1]
+                cur_pos = intro_matrix[drone_index, :, point - 1]
             end_time = (
                 round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
@@ -507,8 +509,11 @@ def main():
         _time_step = time_step
         if time_step == 1 :
             update_drone_step_sequence(7)
-        elif time_step == 15 :
+        if _time_step == 12:
+            update_drone_step_sequence(10)
+        elif time_step == 35 :
             update_drone_step_sequence(2)
+
             
         #time.sleep(delta_t)
     
