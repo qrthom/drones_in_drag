@@ -66,7 +66,7 @@ start_positions = np.array(
         [-2.75, -1, fly_height],
         [-2.75, -2, fly_height],
         [2.75, 1, fly_height],
-        [2.75, 0, fly_height],
+        [2.75, 0, fly_height],  
         [2.75, -1, fly_height],
         [2.75, -2, fly_height],
     ]
@@ -283,11 +283,12 @@ def follower_mode(mocap_coordinates):
 
 
 def circles():
-
     k = 1
+    print("Time Step 1", _time_step)
     layer_1_height = 1
     layer_2_height = 2.5
-    print("Time step:", _time_step)
+    print("Time step 2", _time_step)
+    
     circling_start_time = my_goto(default_destinations)
     print("Circling start time:", circling_start_time)
     phi_layer_1 = np.arange(0, 2 * 3.14159, 2 * 3.14159 / 4)
@@ -357,7 +358,7 @@ def circles():
     )
     assignments = linear_sum_assignment(dists_start)[0]
     start_goto_timestep = time_steps - num_steps_left
-    start_goto = start_goto_timestep * delta_t + _time_step
+    start_goto = start_goto_timestep * delta_t
     beginning_positions = np.asarray([
             layer1_circling_paths[0, :, 0],
             layer1_circling_paths[1, :, 0],
@@ -442,24 +443,22 @@ def v_formation():
     v_begin_time = my_goto(default_destinations)
     for drone_index in range(drone_count):
         time_iterator = v_begin_time
-        for point in range(dimensions):
+        for point in range(2):
             target_location = v_matrix[drone_index, :, point]
             cur_pos = None
             if point == 0:
                 cur_pos = default_destinations[drone_index]
             else:
                 cur_pos = v_matrix[drone_index, :, point - 1]
-            end_time = (
-                round_to_nearest_time_step(
+            end_time = round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
-                )
-                # + time_step
-            )
+                ) + time_iterator
+
             straight_line(
                 time_iterator, end_time, cur_pos, target_location, drone_index
             )
             time_iterator = end_time
-    hover_in_place(time_iterator)
+    hover_in_place(time_iterator - 10*delta_t)
 
     # Make a subscriber to some topic in the launch.py
 
@@ -492,17 +491,17 @@ def update_drone_step_sequence(button_index):
 def initialize():
     drone_step_sequence[:, :, 0] = start_positions
 
+
+
 def main():
     global _time_step
     initialize()
+
     for time_step in np.arange(start=0, stop=total_time, step=delta_t):
         _time_step = time_step
-        if time_step == 2 :
-            update_drone_step_sequence(7)
+        if time_step == 1 :
+            update_drone_step_sequence(8)
             
-        elif time_step == 15:
-            print(time_step)
-            update_drone_step_sequence(2)
         #time.sleep(delta_t)
     
     animation = plot.DroneAnimation(drone_step_sequence, interval=20)  # 20 ms between frames
