@@ -44,9 +44,6 @@ intro_matrix = strut_matrix = np.zeros((drone_count, dimensions, 3))
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
 right_side_strut_points = [[2, 2, 2.1], [-2, 2, 2.1]]
 
-left_side_intro_points = [[-2.75, 2, 2.1], [-2, 2, 2.1]]
-right_side_intro_points = [[2.75, 2, 2.1], [2, 2, 2.1]]
-
 v_8_points = [[1, 1, 2.1], [1, -0.5, 1]]
 v_7_points = [[1.3, 0, 2.1], [1.3, -1, 1.33]]
 v_6_points = [[1.6, -1, 2.1], [1.6, -1.5, 1.66]]
@@ -63,7 +60,8 @@ v_mygoto2 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 
 
 
 
-
+left_side_intro_points = [[-2.75, 2, 2.1], [-2, 2, 2.1]]
+right_side_intro_points = [[2.75, 2, 2.1], [2, 2, 2.1]]
 
 
 # Write an np array of shape (8, 3 )
@@ -227,14 +225,11 @@ def straight_line(start_time, end_time, start_location, end_location, drone):
 # target_locations - 8 x 3 np.array - where are our drones going?
 # Return:
 # end_time - float - returns the time ins second in which this timestep is done
-def my_goto(target_locations, start_time=None, current_locations=None):
-    global _time_step
-    if(start_time == None):
-        start_time = _time_step
+def my_goto(target_locations, start_time=_time_step, current_locations=None):
     if current_locations is None:
         current_locations = np.asarray(
             [
-                drone_step_sequence[i, :, int(start_time / delta_t)]
+                drone_step_sequence[i, :, (int)(start_time / delta_t)]
                 for i in range(drone_count)
             ]
         )  # 8 x 3 array
@@ -266,27 +261,26 @@ def strut():
     strut_begin_time = my_goto(default_destinations)
     for drone_index in range(drone_count):
         time_iterator = strut_begin_time
-        for point in range(3):
+        for point in range(dimensions):
             target_location = strut_matrix[drone_index, :, point]
+            cur_pos = None
             if point == 0:
                 cur_pos = default_destinations[drone_index]
             else:
                 cur_pos = strut_matrix[drone_index, :, point - 1]
-
-            
-            end_time = round_to_nearest_time_step(
+            end_time = (
+                round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
-                ) + time_iterator
-            
-            print("TI",time_iterator)
-            print("ET", end_time)
+                )
+                # + time_step //not sure if this is needed?
+            )
             straight_line(
                 time_iterator, end_time, cur_pos, target_location, drone_index
             )
             time_iterator = end_time
         
 
-    hover_in_place(time_iterator )
+    hover_in_place(time_iterator, start_time=time_iterator)
 
 
 # TODO STRETCH GOAL: IMPLEMENT A FOLLOWER_MODE WITH A MOCAP SUBSRIBER
@@ -301,16 +295,16 @@ def circles():
     layer_2_height = 2.5
     print("Time step 2", _time_step)
     
-    move_start_time = my_goto(default_destinations)
-    print("Circling start time:", move_start_time)
+    circling_start_time = my_goto(default_destinations)
+    print("Circling start time:", circling_start_time)
     phi_layer_1 = np.arange(0, 2 * 3.14159, 2 * 3.14159 / 4)
     phi_layer_2 = np.arange(3.14159 / 4, 2 * 3.14159 + 3.14159 / 4, 2 * 3.14159 / 4)
 
     assert len(phi_layer_1) == 4
     assert len(phi_layer_2) == 4
 
-    num_steps_left = (int)((total_time - move_start_time) / delta_t) + 1
-    t = np.arange(start=move_start_time, stop=total_time, step=delta_t)
+    num_steps_left = (int)((total_time - circling_start_time) / delta_t) + 1
+    t = np.arange(start=circling_start_time, stop=total_time, step=delta_t)
     t = t[:, np.newaxis]
 
 
@@ -356,22 +350,20 @@ def circles():
     import scipy.spatial
 
     drone_step_sequence[
-        0:4, :, (int)(move_start_time / delta_t) : int(total_time / delta_t)
+        0:4, :, (int)(circling_start_time / delta_t) : (int)(total_time / delta_t)
     ] = layer1_circling_paths
     drone_step_sequence[
-        4:8, :, (int)(move_start_time / delta_t) : int(total_time / delta_t)
+        4:8, :, (int)(circling_start_time / delta_t) : (int)(total_time / delta_t)
     ] = layer2_circling_paths
 
-
-
-    starting_positions = drone_step_sequence[0:8, :, int(move_start_time / delta_t)]
+    starting_values = drone_step_sequence[0:8, :, (int)(circling_start_time / delta_t)]
     
     dists_start = scipy.spatial.distance_matrix(
-        starting_positions,
+        starting_values,
         np.concatenate((layer1_circling_paths[:, :, 0], layer2_circling_paths[:, :, 0]), axis=0),
     )
     assignments = linear_sum_assignment(dists_start)[0]
-    start_goto_timestep = int(total_time / delta_t) - num_steps_left
+    start_goto_timestep = time_steps - num_steps_left
     start_goto = start_goto_timestep * delta_t
     beginning_positions = np.asarray([
             layer1_circling_paths[0, :, 0],
@@ -383,7 +375,6 @@ def circles():
             layer2_circling_paths[2, :, 0],
             layer2_circling_paths[3, :, 0]
     ])
-    print("TEST", start_goto - delta_t)
     start_circling_time = my_goto(beginning_positions, start_time=start_goto - delta_t)
     
     start_circles_timestep = int(start_circling_time / delta_t)
@@ -409,10 +400,11 @@ def intro_march():
         for point in range(dimensions):
 
             target_location = intro_matrix[drone_index, :, point]
+
             if point == 0:
                 cur_pos = start_positions[drone_index]
             else:
-                cur_pos = intro_matrix[drone_index, :, point - 1]
+                cur_pos = strut_matrix[drone_index, :, point - 1]
             end_time = (
                 round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
@@ -502,12 +494,7 @@ def main():
     for time_step in np.arange(start=0, stop=total_time, step=delta_t):
         _time_step = time_step
         if time_step == 1 :
-            update_drone_step_sequence(7)
-        if _time_step == 12:
-            update_drone_step_sequence(10)
-        elif time_step == 35 :
-            update_drone_step_sequence(2)
-
+            update_drone_step_sequence(8)
             
         #time.sleep(delta_t)
     
