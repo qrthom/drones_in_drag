@@ -498,16 +498,16 @@ def main():
         # V - formation
 
         
-        if time_step == .5 :
+        if time_step == 15 :
             update_drone_step_sequence(7) #Intro march
-        elif time_step == 8: 
+        elif time_step == 40: 
             update_drone_step_sequence(10)  # Strut Formation
-        elif time_step == 16:
+        elif time_step == 53:
             update_drone_step_sequence(2) #Circles
-        elif time_step == 30:
-            update_drone_step_sequence(8) #V-formation
-        elif time_step == 45:
-            update_drone_step_sequence(6) # Disperse
+        elif time_step == 82:
+            update_drone_step_sequence(6) #V-formation
+        elif time_step == 115:
+            update_drone_step_sequence(8) # Disperse
         # elif time_step == 70:
         #     update_drone_step_sequence(8)
             

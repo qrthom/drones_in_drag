@@ -246,9 +246,10 @@ def strut():
     # Go to default locations
     # current_locations = np.asarray([drone_step_sequence[i,:,time_step] for i in range(drone_count)])
     strut_begin_time = my_goto(default_destinations)
+    time_iterator = None
     for drone_index in range(drone_count):
         time_iterator = strut_begin_time
-        for point in range(dimensions):
+        for point in range(3):
             target_location = strut_matrix[drone_index, :, point]
             cur_pos = None
             if point == 0:
@@ -258,8 +259,7 @@ def strut():
             end_time = (
                 round_to_nearest_time_step(
                     np.linalg.norm(target_location - cur_pos) / max_vel
-                )
-                # + time_step //not sure if this is needed?
+                ) + time_iterator
             )
             straight_line(
                 time_iterator, end_time, cur_pos, target_location, drone_index
@@ -470,9 +470,10 @@ def initialize():
 
 
 def main():
+    global _time_step
     initialize()
     for time_step in np.arange(start=0, stop=total_time, step=delta_t):
-        print(time_step)
+        _time_step = time_step
         if(time_step == 2):
             update_drone_step_sequence(2)
         for i, drone in enumerate(drones):
