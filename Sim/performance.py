@@ -43,18 +43,14 @@ intro_matrix = np.zeros((drone_count, dimensions, 3))
 strut_matrix = np.zeros((drone_count, dimensions, 3))
 
 
-v_8_points = [[1, 1, 2.1], [1, -0.5, 1]]
-v_7_points = [[1.3, 0, 2.1], [1.3, -1, 1.33]]
-v_6_points = [[1.6, -1, 2.1], [1.6, -1.5, 1.66]]
-v_5_points = [[1.9, -2, 2.1], [1.9, -2, 1.99]]
-
-v_4_points = [[-1, 1, 2.1], [-1, -0.5, 1]]
-v_3_points = [[-1.3, 0, 2.1], [-1.3, -1, 1.33]]
-v_2_points = [[-1.6, -1, 2.1], [-1.6, -1.5, 1.66]]
-v_1_points = [[-1.9, -2, 2.1], [-1.9, -2, 1.99]]
-
 v_mygoto = [[-1.9, -2, 2.1], [-1.6, -1, 2.1], [-1.3, 0, 2.1], [-1, 1, 2.1], [1.9, -2, 2.1], [1.6, -1, 2.1], [1.3, 0, 2.1], [1, 1, 2.1]]
 v_mygoto2 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+v_mygoto3 = [[-1.9, -1, 1.49], [-1.6, -0.5, 1.16], [-1.3, 0, .83], [-1, 0.5, .5], [1.9, -1, 1.49], [1.6, -0.5, 1.16], [1.3, -0, .83], [1, 0.5, .5]]
+v_mygoto4 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+v_mygoto5 = [[-1.9, 2, 1.99], [-1.6, 1.5, 1.66], [-1.3, 1, 1.33], [-1, 0.5, 1], [1.9, 2, 1.99], [1.6, 1.5, 1.66], [1.3, 1, 1.33], [1, 0.5, 1]]
+v_mygoto6 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+
+
 
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
 right_side_strut_points = [[2, 2.4, 2.1], [-2, 2.4, 2.1]]
@@ -77,6 +73,125 @@ start_positions = np.array(
     ]
 )
 
+start_positions_fall1 = np.array(
+    [
+        [-2.75+.1, 1, fly_height-.5],
+        [-2.75, 0, fly_height],
+        [-2.75, -1, fly_height],
+        [-2.75, -2, fly_height],
+        [2.75, 1, fly_height],
+        [2.75, 0, fly_height],  
+        [2.75, -1, fly_height],
+        [2.75, -2, fly_height],
+    ]
+)
+start_positions_fall2 = np.array(
+    [
+        [-2.75+.1, 1, fly_height-.5],
+        [-2.75, 0, fly_height],
+        [-2.75+.1, -1, fly_height-.5],
+        [-2.75, -2, fly_height],
+        [2.75, 1, fly_height],
+        [2.75, 0, fly_height],  
+        [2.75, -1, fly_height],
+        [2.75, -2, fly_height],
+    ]
+)
+
+start_positions_fall3 = np.array(
+    [
+        [-2.75+.1, 1, fly_height-.5],
+        [-2.75, 0, fly_height],
+        [-2.75+.1, -1, fly_height-.5],
+        [-2.75, -2, fly_height],
+        [2.75-.1, 1, fly_height-.5],
+        [2.75, 0, fly_height],  
+        [2.75, -1, fly_height],
+        [2.75, -2, fly_height],
+    ]
+)
+
+
+start_positions_fall4 = np.array(
+    [
+        [-2.75+.1, 1, fly_height-.5],
+        [-2.75, 0, fly_height],
+        [-2.75+.1, -1, fly_height-.5],
+        [-2.75, -2, fly_height],
+        [2.75-.1, 1, fly_height-.5],
+        [2.75, 0, fly_height],  
+        [2.75-.1, -1, fly_height-.5],
+        [2.75, -2, fly_height],
+    ]
+)
+
+meet_in_the_middle_destinations = np.array(
+    [
+        [-1.5, -2, fly_height],
+        [-1.5, -1, fly_height],
+        [-1.5, 0, fly_height],
+        [-1.5, 1, fly_height],
+        [1.5, -2, fly_height],
+        [1.5, -1, fly_height],
+        [1.5, 0, fly_height],
+        [1.5, 1, fly_height],
+    ]
+)
+
+x1 = np.array(
+    [
+        [-2, -1, fly_height],
+        [-1, 0, fly_height],
+        [-1, 1, fly_height],
+        [-2, 2, fly_height],
+        [2, -1, fly_height],
+        [1, 0, fly_height],
+        [1, 1, fly_height],
+        [2, 2, fly_height],
+    ]
+)
+
+x2 = np.array(
+    [
+        [-2, -1, fly_height],
+        [-1, 0, fly_height-.5],
+        [-1, 1, fly_height-1],
+        [-2, 2, fly_height-1.5],
+        [2, -2, fly_height],
+        [1, -1, fly_height-.5],
+        [1, 0, fly_height-1],
+        [2, 1, fly_height-1.5],
+    ]
+)
+
+x3_land = np.array(
+    [
+        [-2, -1, 0],
+        [-1, 0, 0],
+        [-1, 1, 0],
+        [-2, 2, 0],
+        [2, -2, 0],
+        [1, -1, 0],
+        [1, 0, 0],
+        [2, 1, 0],
+    ]
+)
+
+step_foward_2 = np.array(
+    [
+        [-2, -2, fly_height],
+        [-2, -1, fly_height],
+        [-2, 0, fly_height],
+        [-2, 1, fly_height],
+        [2, -1, fly_height],
+        [2, 0, fly_height],
+        [2, 1, fly_height],
+        [2, 2, fly_height],
+    ]
+)
+
+
+
 default_destinations = np.array(
     [
         [-2, -2, fly_height],
@@ -87,6 +202,45 @@ default_destinations = np.array(
         [2, -1, fly_height],
         [2, 0, fly_height],
         [2, 1, fly_height],
+    ]
+)
+
+bf_position1 = np.array(
+    [
+        [-1.5, -2, fly_height],
+        [-2, -1, fly_height],
+        [-1.5, 0, fly_height],
+        [-2, 1, fly_height],
+        [1.5, -2, fly_height],
+        [2, -1, fly_height],
+        [1.5, 0, fly_height],
+        [2, 1, fly_height],
+    ]
+)
+
+bf_position2 = np.array(
+    [
+        [-2, -2, fly_height],
+        [-1.5, -1, fly_height],
+        [-2, 0, fly_height],
+        [-1.5, 1, fly_height],
+        [2, -2, fly_height],
+        [1.5, -1, fly_height],
+        [2, 0, fly_height],
+        [1.5, 1, fly_height],
+    ]
+)
+
+bf_position3 = np.array(
+    [
+        [-2, -2, fly_height],
+        [-1.5, -1, fly_height-1],
+        [-2, 0, fly_height],
+        [-1.5, 1, fly_height-1],
+        [2, -2, fly_height],
+        [1.5, -1, fly_height-1],
+        [2, 0, fly_height],
+        [1.5, 1, fly_height-1],
     ]
 )
 
@@ -133,26 +287,7 @@ for drone_index in range(4, 8, 1):
             target_point = default_destinations[drone_index]
         intro_matrix[drone_index, :, point_index] = target_point
 
-# This function initializes the v matrix
-for drone_index in range(0, 8, 1):
-    for point_index in range(2):
-        if drone_index == 0:
-            target_point = v_1_points[point_index]
-        if drone_index == 1:
-            target_point = v_2_points[point_index]
-        if drone_index == 2:
-            target_point = v_3_points[point_index]
-        if drone_index == 3:
-            target_point = v_4_points[point_index]
-        if drone_index == 4:
-            target_point = v_5_points[point_index]
-        if drone_index == 5:
-            target_point = v_6_points[point_index]
-        if drone_index == 6:
-            target_point = v_7_points[point_index]
-        if drone_index == 7:
-            target_point = v_8_points[point_index]
-        v_matrix[drone_index, :, point_index] = target_point
+
 
 
 def round_to_nearest_time_step(value):
@@ -292,7 +427,7 @@ def strut():
             )
             time_iterator = end_time
         
-
+    print(time_iterator)
     hover_in_place(time_iterator - delta_t)
     strut_index_helper()
 
@@ -442,6 +577,38 @@ def disperse_to_default():
     global delta_t
     hover_in_place(my_goto(default_destinations) - delta_t)
 
+def beginning_falls():
+    fall_1_time = my_goto(start_positions)
+    fall_2_time = my_goto(start_positions_fall1, fall_1_time-delta_t)
+    fall_3_time = my_goto(start_positions, fall_2_time-delta_t)
+    fall_4_time = my_goto(start_positions_fall2, fall_3_time-delta_t)
+    fall_5_time = my_goto(start_positions, fall_4_time-delta_t)
+    fall_6_time = my_goto(start_positions_fall3, fall_5_time-delta_t)
+    fall_7_time = my_goto(start_positions, fall_6_time-delta_t)
+    fall_8_time = my_goto(start_positions_fall4, fall_7_time-delta_t)
+    fall_9_time = my_goto(start_positions, fall_8_time-delta_t)
+   
+    hover_in_place(fall_9_time-delta_t)
+
+def back_and_forth():
+    bf_1_time = my_goto(default_destinations)
+    bf_2_time = my_goto(bf_position1, bf_1_time-delta_t)
+    bf_3_time = my_goto(bf_position2, bf_2_time-delta_t)
+    bf_4_time = my_goto(bf_position3, bf_3_time-delta_t)
+    bf_5_time = my_goto(default_destinations, bf_4_time-delta_t)
+    bf_6_time = my_goto(bf_position1, bf_5_time-delta_t)
+    bf_7_time = my_goto(bf_position2, bf_6_time-delta_t)
+    bf_8_time = my_goto(bf_position3, bf_7_time-delta_t)
+    bf_9_time = my_goto(default_destinations, bf_8_time-delta_t)
+    hover_in_place(bf_9_time-delta_t)
+
+def meet_in_the_middle():
+    middle1_time = my_goto(default_destinations)
+    middle2_time = my_goto(meet_in_the_middle_destinations, middle1_time-delta_t)
+    middle3_time = my_goto(default_destinations, middle2_time-delta_t)
+    print(middle3_time)
+    hover_in_place(middle3_time-delta_t)
+    
 
 def v_formation():
     # Go to default locations
@@ -450,22 +617,44 @@ def v_formation():
 
     v_first_point_time = my_goto(v_mygoto, v_begin_time-delta_t)
     v_second_point_time = my_goto(v_mygoto2, v_first_point_time-delta_t)
-    hover_in_place(v_second_point_time-delta_t)
+    v_third_point_time = my_goto(v_mygoto3, v_second_point_time-delta_t)
+    v_fourth_point_time = my_goto(v_mygoto4, v_third_point_time-delta_t)
+    v_fifth_point_time = my_goto(v_mygoto5, v_fourth_point_time-delta_t)
+    v_sixth_point_time = my_goto(v_mygoto6, v_fifth_point_time-delta_t)
+    print(v_sixth_point_time)
+    hover_in_place(v_sixth_point_time-delta_t)
 
 
     # Make a subscriber to some topic in the launch.py
+def go_to_floor():
+    start_time = (x2)
+    floor_time = my_goto(x3_land, start_time-delta_t)
 
+def step_foward():
+    step_begin_time = my_goto(default_destinations)
+    step_time2 = my_goto(x1, step_begin_time-delta_t)
+    step_time3 = my_goto(x2, step_time2-delta_t)
+    hover_in_place(step_time3-delta_t)
 
 def update_drone_step_sequence(button_index):
     if button_index == 0:  # Follower
         print("Follower Mode: Green button")
         follower_mode("Placeholder")
+    elif button_index == 1:  # Circles
+        print("back and forth")
+        back_and_forth()
     elif button_index == 2:  # Circles
         print("Circles! Blue button")
         circles()
     elif button_index == 3:  # Train
         print("Train! Yellow Button")
         train()
+    elif button_index == 4:  # Train
+        print("fall in the beginning")
+        beginning_falls()
+    elif button_index == 5:  # Train
+        print("meet in the middle")
+        meet_in_the_middle()
     elif button_index == 7:  # Intro March
         print("Intro March! Start button")
         intro_march()
@@ -475,6 +664,9 @@ def update_drone_step_sequence(button_index):
     elif button_index == 8:  # V-Formation
         print("V-form! Circle Button")
         v_formation()
+    elif button_index == 9:  # V-Formation
+        print("Step foward")
+        step_foward()
     elif button_index == 10:  # Strut - right joy in
         print("Strut! right joystick in")
         strut()
@@ -497,17 +689,31 @@ def main():
         # Train Motion - "Pretty Boys to the floor"
         # V - formation
 
-        
+        if time_step == 0:
+            update_drone_step_sequence(4) #falling sequence
+            print(time_step)
         if time_step == 15 :
             update_drone_step_sequence(7) #Intro march
+            print(time_step)
+        elif time_step == 21: 
+            update_drone_step_sequence(1) # back and forth
         elif time_step == 40: 
             update_drone_step_sequence(10)  # Strut Formation
+            print(time_step)
+        elif time_step == 48:
+            update_drone_step_sequence(5) #meet in the middle
         elif time_step == 53:
             update_drone_step_sequence(2) #Circles
         elif time_step == 82:
-            update_drone_step_sequence(6) #V-formation
-        elif time_step == 115:
-            update_drone_step_sequence(8) # Disperse
+            update_drone_step_sequence(8) #V-formation
+        elif time_step == 116: 
+            update_drone_step_sequence(10)  # Strut Formation
+            print(time_step)
+        elif time_step == 124: 
+            update_drone_step_sequence(9) #step_foward
+
+        # elif time_step == 116:
+        #     update_drone_step_sequence(6) # Disperse
         # elif time_step == 70:
         #     update_drone_step_sequence(8)
             

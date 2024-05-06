@@ -55,6 +55,11 @@ v_1_points = [[-1.9, -2, 2.1], [-1.9, -2, 1.99]]
 
 v_mygoto = [[-1.9, -2, 2.1], [-1.6, -1, 2.1], [-1.3, 0, 2.1], [-1, 1, 2.1], [1.9, -2, 2.1], [1.6, -1, 2.1], [1.3, 0, 2.1], [1, 1, 2.1]]
 v_mygoto2 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+v_mygoto3 = [[-1.9, -1, 1.49], [-1.6, -0.5, 1.16], [-1.3, 0, .83], [-1, 0.5, .5], [1.9, -1, 1.49], [1.6, -0.5, 1.16], [1.3, -0, .83], [1, 0.5, .5]]
+v_mygoto4 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+v_mygoto5 = [[-1.9, 2, 1.99], [-1.6, 1.5, 1.66], [-1.3, 1, 1.33], [-1, 0.5, 1], [1.9, 2, 1.99], [1.6, 1.5, 1.66], [1.3, 1, 1.33], [1, 0.5, 1]]
+v_mygoto6 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+
 
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
 right_side_strut_points = [[2, 2.4, 2.1], [-2, 2.4, 2.1]]
@@ -443,6 +448,17 @@ def disperse_to_default():
     hover_in_place(my_goto(default_destinations) - delta_t)
 
 
+# def v_formation():
+#     # Go to default locations
+#     # current_locations = np.asarray([drone_step_sequence[i,:,time_step] for i in range(drone_count)])
+#     v_begin_time = my_goto(default_destinations)
+
+#     v_first_point_time = my_goto(v_mygoto, v_begin_time-delta_t)
+#     v_second_point_time = my_goto(v_mygoto2, v_first_point_time-delta_t)
+#     hover_in_place(v_second_point_time-delta_t)
+
+
+#     # Make a subscriber to some topic in the launch.py
 def v_formation():
     # Go to default locations
     # current_locations = np.asarray([drone_step_sequence[i,:,time_step] for i in range(drone_count)])
@@ -450,10 +466,12 @@ def v_formation():
 
     v_first_point_time = my_goto(v_mygoto, v_begin_time-delta_t)
     v_second_point_time = my_goto(v_mygoto2, v_first_point_time-delta_t)
-    hover_in_place(v_second_point_time-delta_t)
-
-
-    # Make a subscriber to some topic in the launch.py
+    v_third_point_time = my_goto(v_mygoto3, v_second_point_time-delta_t)
+    v_fourth_point_time = my_goto(v_mygoto4, v_third_point_time-delta_t)
+    v_fifth_point_time = my_goto(v_mygoto5, v_fourth_point_time-delta_t)
+    v_sixth_point_time = my_goto(v_mygoto6, v_fifth_point_time-delta_t)
+    print(v_sixth_point_time)
+    hover_in_place(v_sixth_point_time-delta_t)
 
 
 def update_drone_step_sequence(button_index):
@@ -506,10 +524,10 @@ def main():
             update_drone_step_sequence(2) #Circles
         elif time_step == 30:
             update_drone_step_sequence(8) #V-formation
-        elif time_step == 45:
-            update_drone_step_sequence(6) # Disperse
-        # elif time_step == 70:
-        #     update_drone_step_sequence(8)
+        elif time_step == 62:
+             update_drone_step_sequence(6) # Disperse
+        # elif time_step == 77:
+        #      update_drone_step_sequence(8)
             
         #time.sleep(delta_t)
     
