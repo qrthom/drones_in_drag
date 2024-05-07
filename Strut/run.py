@@ -43,22 +43,13 @@ intro_matrix = np.zeros((drone_count, dimensions, 3))
 strut_matrix = np.zeros((drone_count, dimensions, 3))
 
 
-v_8_points = [[1, 1, 2.1], [1, -0.5, 1]]
-v_7_points = [[1.3, 0, 2.1], [1.3, -1, 1.33]]
-v_6_points = [[1.6, -1, 2.1], [1.6, -1.5, 1.66]]
-v_5_points = [[1.9, -2, 2.1], [1.9, -2, 1.99]]
-
-v_4_points = [[-1, 1, 2.1], [-1, -0.5, 1]]
-v_3_points = [[-1.3, 0, 2.1], [-1.3, -1, 1.33]]
-v_2_points = [[-1.6, -1, 2.1], [-1.6, -1.5, 1.66]]
-v_1_points = [[-1.9, -2, 2.1], [-1.9, -2, 1.99]]
-
 v_mygoto = [[-1.9, -2, 2.1], [-1.6, -1, 2.1], [-1.3, 0, 2.1], [-1, 1, 2.1], [1.9, -2, 2.1], [1.6, -1, 2.1], [1.3, 0, 2.1], [1, 1, 2.1]]
 v_mygoto2 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
 v_mygoto3 = [[-1.9, -1, 1.49], [-1.6, -0.5, 1.16], [-1.3, 0, .83], [-1, 0.5, .5], [1.9, -1, 1.49], [1.6, -0.5, 1.16], [1.3, -0, .83], [1, 0.5, .5]]
 v_mygoto4 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
 v_mygoto5 = [[-1.9, 2, 1.99], [-1.6, 1.5, 1.66], [-1.3, 1, 1.33], [-1, 0.5, 1], [1.9, 2, 1.99], [1.6, 1.5, 1.66], [1.3, 1, 1.33], [1, 0.5, 1]]
 v_mygoto6 = [[-1.9, -2, 1.99], [-1.6, -1.5, 1.66], [-1.3, -1, 1.33], [-1, -0.5, 1], [1.9, -2, 1.99], [1.6, -1.5, 1.66], [1.3, -1, 1.33], [1, -0.5, 1]]
+
 
 
 left_side_strut_points = [[-2, 2, 2.1], [2, 2, 2.1]]
@@ -84,7 +75,7 @@ start_positions = np.array(
 
 start_positions_fall1 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
         [-2.75, -1, fly_height],
         [-2.75, -2, fly_height],
@@ -96,9 +87,9 @@ start_positions_fall1 = np.array(
 )
 start_positions_fall2 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
         [2.75, 1, fly_height],
         [2.75, 0, fly_height],  
@@ -109,11 +100,11 @@ start_positions_fall2 = np.array(
 
 start_positions_fall3 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
-        [2.75-.1, 1, fly_height-.5],
+        [2.75-.1, 1, fly_height-.4],
         [2.75, 0, fly_height],  
         [2.75, -1, fly_height],
         [2.75, -2, fly_height],
@@ -123,13 +114,13 @@ start_positions_fall3 = np.array(
 
 start_positions_fall4 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
-        [2.75-.1, 1, fly_height-.5],
+        [2.75-.1, 1, fly_height-.4],
         [2.75, 0, fly_height],  
-        [2.75-.1, -1, fly_height-.5],
+        [2.75-.1, -1, fly_height-.4],
         [2.75, -2, fly_height],
     ]
 )
@@ -199,6 +190,8 @@ step_foward_2 = np.array(
     ]
 )
 
+
+
 default_destinations = np.array(
     [
         [-2, -2, fly_height],
@@ -214,13 +207,13 @@ default_destinations = np.array(
 
 bf_position1 = np.array(
     [
-        [-1.5, -2, fly_height],
+        [-1.75, -2, fly_height],
         [-2, -1, fly_height],
-        [-1.5, 0, fly_height],
+        [-1.75, 0, fly_height],
         [-2, 1, fly_height],
-        [1.5, -2, fly_height],
+        [1.75, -2, fly_height],
         [2, -1, fly_height],
-        [1.5, 0, fly_height],
+        [1.75, 0, fly_height],
         [2, 1, fly_height],
     ]
 )
@@ -228,13 +221,13 @@ bf_position1 = np.array(
 bf_position2 = np.array(
     [
         [-2, -2, fly_height],
-        [-1.5, -1, fly_height],
+        [-1.75, -1, fly_height],
         [-2, 0, fly_height],
-        [-1.5, 1, fly_height],
+        [-1.75, 1, fly_height],
         [2, -2, fly_height],
-        [1.5, -1, fly_height],
+        [1.75, -1, fly_height],
         [2, 0, fly_height],
-        [1.5, 1, fly_height],
+        [1.75, 1, fly_height],
     ]
 )
 
@@ -250,7 +243,6 @@ bf_position3 = np.array(
         [1.5, 1, fly_height-1],
     ]
 )
-
 
 drone_step_sequence = np.tile(start_positions[:, :, np.newaxis], (1, 1, time_steps))
 
@@ -295,26 +287,7 @@ for drone_index in range(4, 8, 1):
             target_point = default_destinations[drone_index]
         intro_matrix[drone_index, :, point_index] = target_point
 
-# This function initializes the v matrix
-for drone_index in range(0, 8, 1):
-    for point_index in range(2):
-        if drone_index == 0:
-            target_point = v_1_points[point_index]
-        if drone_index == 1:
-            target_point = v_2_points[point_index]
-        if drone_index == 2:
-            target_point = v_3_points[point_index]
-        if drone_index == 3:
-            target_point = v_4_points[point_index]
-        if drone_index == 4:
-            target_point = v_5_points[point_index]
-        if drone_index == 5:
-            target_point = v_6_points[point_index]
-        if drone_index == 6:
-            target_point = v_7_points[point_index]
-        if drone_index == 7:
-            target_point = v_8_points[point_index]
-        v_matrix[drone_index, :, point_index] = target_point
+
 
 
 def round_to_nearest_time_step(value):
@@ -621,13 +594,12 @@ def back_and_forth():
     bf_1_time = my_goto(default_destinations)
     bf_2_time = my_goto(bf_position1, bf_1_time-delta_t)
     bf_3_time = my_goto(bf_position2, bf_2_time-delta_t)
-    bf_4_time = my_goto(bf_position3, bf_3_time-delta_t)
-    bf_5_time = my_goto(default_destinations, bf_4_time-delta_t)
-    bf_6_time = my_goto(bf_position1, bf_5_time-delta_t)
-    bf_7_time = my_goto(bf_position2, bf_6_time-delta_t)
-    bf_8_time = my_goto(bf_position3, bf_7_time-delta_t)
-    bf_9_time = my_goto(default_destinations, bf_8_time-delta_t)
-    hover_in_place(bf_9_time-delta_t)
+    bf_4_time = my_goto(bf_position1, bf_3_time-delta_t)
+    bf_5_time = my_goto(bf_position2, bf_4_time-delta_t)
+    bf_6_time = my_goto(bf_position3, bf_5_time-delta_t)
+    bf_7_time = my_goto(default_destinations, bf_6_time-delta_t)
+ 
+    hover_in_place(bf_7_time-delta_t)
 
 def meet_in_the_middle():
     middle1_time = my_goto(default_destinations)
@@ -755,25 +727,25 @@ def main():
         if time_step == 0:
             update_drone_step_sequence(4) #falling sequence
             print(time_step)
-        if time_step == 15 :
+        elif time_step == 15 :
             update_drone_step_sequence(7) #Intro march
             print(time_step)
-        elif time_step == 21: 
+        elif time_step == 23: 
             update_drone_step_sequence(1) # back and forth
         elif time_step == 40: 
             update_drone_step_sequence(10)  # Strut Formation
-            print(time_step)
-        elif time_step == 48:
-            update_drone_step_sequence(5) #meet in the middle
-        elif time_step == 53:
+        #     print(time_step)
+        # elif time_step == 48:
+        #     update_drone_step_sequence(5) #meet in the middle
+        elif time_step == 52:
+             update_drone_step_sequence(6) # Disperse
+        elif time_step == 54:
             update_drone_step_sequence(2) #Circles
         elif time_step == 76:
             update_drone_step_sequence(8) #V-formation
-        elif time_step == 111: 
-            update_drone_step_sequence(10)  # Strut Formation
-            print(time_step)
-        elif time_step == 124: 
+        elif time_step == 122: 
             update_drone_step_sequence(9) #step_foward
+
         # if(time_step == 12): # When the bass comes in intro_march, second 0:15 cumulative
         #     update_drone_step_sequence(7)
         # if(time_step == 37): # Strut Move, Second 0:40 cumulatively
