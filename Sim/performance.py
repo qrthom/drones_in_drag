@@ -140,12 +140,12 @@ meet_in_the_middle_destinations = np.array(
 
 x1 = np.array(
     [
-        [-2, -1, fly_height],
-        [-1, 0, fly_height],
+        [-2, -2, fly_height],
+        [-1, -1, fly_height],
         [-1, 1, fly_height],
         [-2, 2, fly_height],
-        [2, -1, fly_height],
-        [1, 0, fly_height],
+        [2, -2, fly_height],
+        [1, -1, fly_height],
         [1, 1, fly_height],
         [2, 2, fly_height],
     ]
@@ -153,14 +153,14 @@ x1 = np.array(
 
 x2 = np.array(
     [
-        [-2, -1, fly_height],
-        [-1, 0, fly_height-.5],
+        [-2, -2, fly_height],
+        [-1, -1, fly_height-.5],
         [-1, 1, fly_height-1],
         [-2, 2, fly_height-1.5],
         [2, -2, fly_height],
         [1, -1, fly_height-.5],
-        [1, 0, fly_height-1],
-        [2, 1, fly_height-1.5],
+        [1, 1, fly_height-1],
+        [2, 2, fly_height-1.5],
     ]
 )
 
@@ -704,9 +704,9 @@ def main():
             update_drone_step_sequence(5) #meet in the middle
         elif time_step == 53:
             update_drone_step_sequence(2) #Circles
-        elif time_step == 82:
+        elif time_step == 76:
             update_drone_step_sequence(8) #V-formation
-        elif time_step == 116: 
+        elif time_step == 111: 
             update_drone_step_sequence(10)  # Strut Formation
             print(time_step)
         elif time_step == 124: 
