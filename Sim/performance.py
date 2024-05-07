@@ -17,7 +17,7 @@ from scipy.optimize import linear_sum_assignment
 import numpy as np
 
 takeoff_height = 2
-velocity = 1.2
+velocity = .8
 
 
 total_time = 150  # Time in seconds
@@ -30,7 +30,7 @@ dimensions = 3
 drones = []  # ADD DRONES TO THIS LIST
 button_pressed = np.zeros(11)  # True when a button has been pressed
 button = "X"  # Updated with the most recently pressed button
-max_vel = 1.3  #
+max_vel = .8  #
 _time_step = 0
 fly_height = 2.1
 
@@ -75,7 +75,7 @@ start_positions = np.array(
 
 start_positions_fall1 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
         [-2.75, -1, fly_height],
         [-2.75, -2, fly_height],
@@ -87,9 +87,9 @@ start_positions_fall1 = np.array(
 )
 start_positions_fall2 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
         [2.75, 1, fly_height],
         [2.75, 0, fly_height],  
@@ -100,11 +100,11 @@ start_positions_fall2 = np.array(
 
 start_positions_fall3 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
-        [2.75-.1, 1, fly_height-.5],
+        [2.75-.1, 1, fly_height-.4],
         [2.75, 0, fly_height],  
         [2.75, -1, fly_height],
         [2.75, -2, fly_height],
@@ -114,13 +114,13 @@ start_positions_fall3 = np.array(
 
 start_positions_fall4 = np.array(
     [
-        [-2.75+.1, 1, fly_height-.5],
+        [-2.75+.1, 1, fly_height-.4],
         [-2.75, 0, fly_height],
-        [-2.75+.1, -1, fly_height-.5],
+        [-2.75+.1, -1, fly_height-.4],
         [-2.75, -2, fly_height],
-        [2.75-.1, 1, fly_height-.5],
+        [2.75-.1, 1, fly_height-.4],
         [2.75, 0, fly_height],  
-        [2.75-.1, -1, fly_height-.5],
+        [2.75-.1, -1, fly_height-.4],
         [2.75, -2, fly_height],
     ]
 )
@@ -207,13 +207,13 @@ default_destinations = np.array(
 
 bf_position1 = np.array(
     [
-        [-1.5, -2, fly_height],
+        [-1.75, -2, fly_height],
         [-2, -1, fly_height],
-        [-1.5, 0, fly_height],
+        [-1.75, 0, fly_height],
         [-2, 1, fly_height],
-        [1.5, -2, fly_height],
+        [1.75, -2, fly_height],
         [2, -1, fly_height],
-        [1.5, 0, fly_height],
+        [1.75, 0, fly_height],
         [2, 1, fly_height],
     ]
 )
@@ -221,13 +221,13 @@ bf_position1 = np.array(
 bf_position2 = np.array(
     [
         [-2, -2, fly_height],
-        [-1.5, -1, fly_height],
+        [-1.75, -1, fly_height],
         [-2, 0, fly_height],
-        [-1.5, 1, fly_height],
+        [-1.75, 1, fly_height],
         [2, -2, fly_height],
-        [1.5, -1, fly_height],
+        [1.75, -1, fly_height],
         [2, 0, fly_height],
-        [1.5, 1, fly_height],
+        [1.75, 1, fly_height],
     ]
 )
 
@@ -362,6 +362,7 @@ def my_goto(target_locations, start_time=None, current_locations=None):
     global _time_step
     if(start_time==None):
         start_time=_time_step
+    print("start time", start_time)
     if current_locations is None:
         current_locations = np.asarray(
             [
@@ -373,10 +374,10 @@ def my_goto(target_locations, start_time=None, current_locations=None):
     max_duration = np.max(
         np.linalg.norm(target_locations - current_locations) / max_vel
     )
-
+   
 
     end_time = start_time + max_duration+1
-
+    print("end time", end_time)
 
     for i in range(drone_count):
         straight_line(
@@ -594,13 +595,12 @@ def back_and_forth():
     bf_1_time = my_goto(default_destinations)
     bf_2_time = my_goto(bf_position1, bf_1_time-delta_t)
     bf_3_time = my_goto(bf_position2, bf_2_time-delta_t)
-    bf_4_time = my_goto(bf_position3, bf_3_time-delta_t)
-    bf_5_time = my_goto(default_destinations, bf_4_time-delta_t)
-    bf_6_time = my_goto(bf_position1, bf_5_time-delta_t)
-    bf_7_time = my_goto(bf_position2, bf_6_time-delta_t)
-    bf_8_time = my_goto(bf_position3, bf_7_time-delta_t)
-    bf_9_time = my_goto(default_destinations, bf_8_time-delta_t)
-    hover_in_place(bf_9_time-delta_t)
+    bf_4_time = my_goto(bf_position1, bf_3_time-delta_t)
+    bf_5_time = my_goto(bf_position2, bf_4_time-delta_t)
+    bf_6_time = my_goto(bf_position3, bf_5_time-delta_t)
+    bf_7_time = my_goto(default_destinations, bf_6_time-delta_t)
+ 
+    hover_in_place(bf_7_time-delta_t)
 
 def meet_in_the_middle():
     middle1_time = my_goto(default_destinations)
@@ -631,8 +631,7 @@ def go_to_floor():
     floor_time = my_goto(x3_land, start_time-delta_t)
 
 def step_foward():
-    step_begin_time = my_goto(default_destinations)
-    step_time2 = my_goto(x1, step_begin_time-delta_t)
+    step_time2 = my_goto(x1)
     step_time3 = my_goto(x2, step_time2-delta_t)
     hover_in_place(step_time3-delta_t)
 
@@ -695,25 +694,23 @@ def main():
         elif time_step == 15 :
             update_drone_step_sequence(7) #Intro march
             print(time_step)
-        elif time_step == 21: 
+        elif time_step == 23: 
             update_drone_step_sequence(1) # back and forth
         elif time_step == 40: 
             update_drone_step_sequence(10)  # Strut Formation
-            print(time_step)
-        elif time_step == 48:
-            update_drone_step_sequence(5) #meet in the middle
-        elif time_step == 53:
+        #     print(time_step)
+        # elif time_step == 48:
+        #     update_drone_step_sequence(5) #meet in the middle
+        elif time_step == 52:
+             update_drone_step_sequence(6) # Disperse
+        elif time_step == 54:
             update_drone_step_sequence(2) #Circles
         elif time_step == 76:
             update_drone_step_sequence(8) #V-formation
-        elif time_step == 111: 
-            update_drone_step_sequence(10)  # Strut Formation
-            print(time_step)
-        elif time_step == 124: 
+        elif time_step == 122: 
             update_drone_step_sequence(9) #step_foward
 
-        # elif time_step == 116:
-        #     update_drone_step_sequence(6) # Disperse
+        
         # elif time_step == 70:
         #     update_drone_step_sequence(8)
             
