@@ -692,7 +692,7 @@ def main():
         if time_step == 0:
             update_drone_step_sequence(4) #falling sequence
             print(time_step)
-        if time_step == 15 :
+        elif time_step == 15 :
             update_drone_step_sequence(7) #Intro march
             print(time_step)
         elif time_step == 21: 
